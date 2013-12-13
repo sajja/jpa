@@ -7,6 +7,7 @@ import org.hibernate.envers.Audited;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +36,7 @@ public class Department {
     }
     private String name;
 
-    @OneToMany(targetEntity = Professor.class,cascade = CascadeType.ALL)
+    @OneToMany(targetEntity = Professor.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "dept_id")
     @AuditJoinTable(name = "yyy")
     private java.util.List<Professor> employees;

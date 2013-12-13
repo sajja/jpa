@@ -17,7 +17,7 @@ import javax.persistence.Persistence;
 public class AppTest {
 
     @Test
-    public void testManyToOne_non_lazy_property() throws NamingException {
+    public void test_one_to_many_non_lazy_property() throws NamingException {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -28,7 +28,7 @@ public class AppTest {
 
     @Test
     @ExpectedExceptions(value = LazyInitializationException.class)
-    public void testManyToOne_lazy_property_with_closed_session_results_exception() throws NamingException {
+    public void test_one_to_many_lazy_property_with_closed_session_results_exception() throws NamingException {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -41,24 +41,23 @@ public class AppTest {
     }
 
     @Test
-    @ExpectedExceptions(value = LazyInitializationException.class)
-    public void testManyToOne_lazy_property_with_open_session_passes() throws NamingException {
+    public void test_one_to_many_lazy_property_with_open_session_passes() throws NamingException {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
         Department d1 = em.find(Department.class, 1);
         Assert.assertEquals(d1.getName(),"science");//checking a non-lazy property.
+        Assert.assertEquals(d1.getEmployees().get(0).getName(),"Xaviour");
         tx.commit();
         em.close();
-        Assert.assertEquals(d1.getEmployees().get(0).getName(),"Xaviour");
     }
 
 
 
-    //One-to-Many tests
+    //Many-to-one
 
     @Test
-    public void testOne_to_Many_non_lazy_property_non_inverse_relation() throws NamingException {
+    public void test_many_to_one_non_lazy_property_non_inverse_relation() throws NamingException {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -69,7 +68,7 @@ public class AppTest {
 
 
     @Test
-    public void testOne_to_Many_lazy_property_with_open_session_passes_non_inverse_relation() throws NamingException {
+    public void test_many_to_one_lazy_property_with_open_session_passes_non_inverse_relation() throws NamingException {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
@@ -81,7 +80,7 @@ public class AppTest {
 
     @Test
     @ExpectedExceptions(value = LazyInitializationException.class)
-    public void testOne_to_Many_lazy_property_with_closed_session_fails_non_inverse_relation() throws NamingException {
+    public void test_many_to_one_lazy_property_with_closed_session_fails_non_inverse_relation() throws NamingException {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
