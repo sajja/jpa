@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd"
+             version="1.0">
+
+    <persistence-unit name="test" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.ejb.HibernatePersistence</provider>
+        <class>test.jpa.Department</class>
+        <class>test.jpa.Professor</class>
+        <class>test.jpa.Address</class>
+        <!-- the JNDI data source -->
+        <!--<non-jta-data-source>jdbc1/tutorialDS</non-jta-data-source>-->
+        <properties>
+            <property name="hibernate.connection.driver_class" value="org.postgresql.Driver"/>
+            <!-- if this is true, hibernate will print (to stdout) the SQL it executes,
+                so you can check it to ensure it's not doing anything crazy -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <!-- since most database servers have slightly different versions of the
+                SQL, Hibernate needs you to choose a dialect so it knows the subtleties of
+                talking to that server -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+            <!-- this tell Hibernate to update the DDL when it starts, very useful
+                for development, dangerous in production -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/sajith"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="postgres"/>
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
+
+            <property name="hibernate.ejb.event.post-insert"
+                      value="test.jpa.MyAuditEventListener" />
+            <property name="hibernate.ejb.event.post-delete" value="org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />
+            <property name="hibernate.ejb.event.pre-collection-update" value="test.jpa.MyAuditEventListener" />
+            <property name="hibernate.ejb.event.pre-collection-remove" value="test.jpa.MyAuditEventListener" />
+            <property name="hibernate.ejb.event.post-collection-recreate" value="test.jpa.MyAuditEventListener" />
+
+            <property name="org.hibernate.envers.audit_table_prefix" value="a_" />
+            <property name="org.hibernate.envers.audit_table_suffix" value="" />
+            <property name="org.hibernate.envers.default_schema" value="audit" />
+
+        </properties>
+    </persistence-unit>
+</persistence>
