@@ -38,11 +38,11 @@ public class Department {
 
     @OneToMany(targetEntity = Professor.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "dept_id")
-    @AuditJoinTable(name = "yyy")
+    @AuditJoinTable
     private java.util.List<Professor> employees;
 
     @OneToMany(targetEntity = Address.class, mappedBy = "department")
-    @AuditJoinTable(name = "xxxxxxx")
+    @AuditJoinTable(name = "yyy")
     private java.util.List<Address> addresses;
 
 

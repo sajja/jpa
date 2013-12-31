@@ -1,15 +1,13 @@
 package test.jpa;
 
 
-import org.hibernate.LazyInitializationException;
-import org.testng.Assert;
-import org.testng.annotations.ExpectedExceptions;
 import org.testng.annotations.Test;
 
 import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.util.ArrayList;
 
 /**
  * Unit test for simple App.
@@ -17,79 +15,86 @@ import javax.persistence.Persistence;
 public class AppTest {
 
     @Test
-    public void test_one_to_many_non_lazy_property() throws NamingException {
+    public void auditNon_InverseTest() throws NamingException {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        Department d1 = em.find(Department.class, 1);
-        Assert.assertEquals(d1.getName(), "science");//checking a non-lazy property.
+        Department science = new Department();
+        science.setName("Science");
+
+        ArrayList<Professor> employees = new ArrayList<Professor>();
+
+        Professor xavior = new Professor();
+        xavior.setName("Xavior");
+        employees.add(xavior);
+
+        Professor magnito = new Professor();
+        xavior.setName("Magnito");
+        employees.add(magnito);
+
+        science.setEmployees(employees);
+        em.persist(science);
+
+        Department investigation = new Department();
+        investigation.setName("Investigation");
+
+        Address sherlock = new Address();
+        sherlock.setName("52, Baker st.");
+
+        Address jamesbond = new Address();
+        jamesbond.setName("Classified");
+
+        jamesbond.setDepartment(investigation);
+        sherlock.setDepartment(investigation);
+
+        em.persist(sherlock);
+        em.persist(jamesbond);
+
+
         tx.commit();
-    }
-
-    @Test
-    @ExpectedExceptions(value = LazyInitializationException.class)
-    public void test_one_to_many_lazy_property_with_closed_session_results_exception() throws NamingException {
-        EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
-        EntityTransaction tx = em.getTransaction();
+        tx = em.getTransaction();
         tx.begin();
-        Department d1 = em.find(Department.class, 1);
-        Assert.assertEquals(d1.getName(),"science");//checking a non-lazy property.
-        tx.commit();
-        em.close();
-        Assert.assertEquals(d1.getEmployees().get(0).getName(),"Xaviour");
 
-    }
-
-    @Test
-    public void test_one_to_many_lazy_property_with_open_session_passes() throws NamingException {
-        EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        Department d1 = em.find(Department.class, 1);
-        Assert.assertEquals(d1.getName(),"science");//checking a non-lazy property.
-        Assert.assertEquals(d1.getEmployees().get(0).getName(),"Xaviour");
-        tx.commit();
-        em.close();
-    }
-
-
-
-    //Many-to-one
-
-    @Test
-    public void test_many_to_one_non_lazy_property_non_inverse_relation() throws NamingException {
-        EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
-        EntityTransaction tx = em.getTransaction();
-        tx.begin();
-        Professor x = em.find(Professor.class, 1);
-        Assert.assertEquals(x.getName(), "Xaviour");//checking a non-lazy property.
+        science = em.find(Department.class, science.getId());
+        science.getEmployees().remove(0);
+        em.persist(science);
         tx.commit();
     }
 
 
     @Test
-    public void test_many_to_one_lazy_property_with_open_session_passes_non_inverse_relation() throws NamingException {
+    public void auditInverseTest() {
         EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        Professor x = em.find(Professor.class, 1);
-        Assert.assertEquals(x.getName(), "Xaviour");//checking a non-lazy property.
-        Assert.assertEquals(x.getDepartment().getName(), "science");//checking a non-lazy property.
-        tx.commit();
-    }
 
-    @Test
-    @ExpectedExceptions(value = LazyInitializationException.class)
-    public void test_many_to_one_lazy_property_with_closed_session_fails_non_inverse_relation() throws NamingException {
-        EntityManager em = Persistence.createEntityManagerFactory("test").createEntityManager();
-        EntityTransaction tx = em.getTransaction();
+        Department cia = new Department();
+        cia.setName("Cia");
+
+        Address oo7 = new Address();
+        oo7.setName("Classified");
+        oo7.setDepartment(cia);
+
+
+        Address oo8 = new Address();
+        oo8.setName("Compromized");
+        oo8.setDepartment(cia);
+
+        em.persist(oo7);
+        em.persist(oo8);
+
+        oo7.setName("007 - modified");
+        em.persist(oo7);
+
+        tx.commit();
+
+        tx = em.getTransaction();
         tx.begin();
-        Professor x = em.find(Professor.class, 1);
-        Assert.assertEquals(x.getName(), "Xaviour");//checking a non-lazy property.
-        tx.commit();
-        em.close();
-        Assert.assertEquals(x.getDepartment().getName(), "science");//checking a non-lazy property.
-    }
+        oo8 = em.find(Address.class, oo8.getId());
+        oo8.setDepartment(null);
+        em.persist(oo8);
 
+        tx.commit();
+    }
 
 }

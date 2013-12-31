@@ -22,7 +22,7 @@ public class Address {
     private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @AuditJoinTable(name = "xxxxxxx")
+    @AuditJoinTable(name = "xxxxxxx", inverseJoinColumns = {@JoinColumn(name = "abc", referencedColumnName = "department_id", table = "department")})
     private Department department;
 
     public int getId() {
