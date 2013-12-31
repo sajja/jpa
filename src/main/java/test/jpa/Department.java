@@ -1,6 +1,8 @@
 package test.jpa;
 
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.envers.AuditJoinTable;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -20,6 +22,7 @@ import java.util.List;
 @Entity
 @Audited
 @AuditTable(value = "DDD")
+@Cache(usage = CacheConcurrencyStrategy.READ_ONLY)
 public class Department {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
