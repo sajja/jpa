@@ -17,7 +17,7 @@ public class Professor {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column
+    @Column(nullable = false)
     private String name;
     private long salary;
 

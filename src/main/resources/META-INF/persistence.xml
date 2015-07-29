@@ -26,14 +26,14 @@
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/sajith"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.password" value="postgres"/>
-            <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.hbm2ddl.auto" value="validate" />
 
-            <property name="hibernate.ejb.event.post-insert" value="test.jpa.MyAuditEventListener" />
+            <!--<property name="hibernate.ejb.event.post-insert" value="test.jpa.MyAuditEventListener" />-->
             <!--<property name="hibernate.ejb.event.post-update" value="test.jpa.MyAuditEventListener" />-->
-            <property name="hibernate.ejb.event.post-delete" value="org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />
-            <property name="hibernate.ejb.event.pre-collection-update" value="test.jpa.MyAuditEventListener" />
-            <property name="hibernate.ejb.event.pre-collection-remove" value="test.jpa.MyAuditEventListener" />
-            <property name="hibernate.ejb.event.post-collection-recreate" value="test.jpa.MyAuditEventListener" />
+            <!--<property name="hibernate.ejb.event.post-delete" value="org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />-->
+            <!--<property name="hibernate.ejb.event.pre-collection-update" value="test.jpa.MyAuditEventListener" />-->
+            <!--<property name="hibernate.ejb.event.pre-collection-remove" value="test.jpa.MyAuditEventListener" />-->
+            <!--<property name="hibernate.ejb.event.post-collection-recreate" value="test.jpa.MyAuditEventListener" />-->
 
             <property name="org.hibernate.envers.audit_table_prefix" value="a_" />
             <property name="org.hibernate.envers.audit_table_suffix" value="" />

@@ -1,6 +1,8 @@
 package test.jpa;
 
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.envers.AuditJoinTable;
 import org.hibernate.envers.AuditTable;
 import org.hibernate.envers.Audited;
@@ -37,6 +39,7 @@ public class Department {
     private String name;
 
     @OneToMany(targetEntity = Professor.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @LazyCollection(LazyCollectionOption.EXTRA)
     @JoinColumn(name = "dept_id")
     @AuditJoinTable
     private java.util.List<Professor> employees;
