@@ -9,6 +9,7 @@
         <class>test.jpa.Department</class>
         <class>test.jpa.Professor</class>
         <class>test.jpa.Address</class>
+        <class>test.jpa.Project</class>
         <!-- the JNDI data source -->
         <!--<non-jta-data-source>jdbc1/tutorialDS</non-jta-data-source>-->
         <properties>
@@ -23,7 +24,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
             <!-- this tell Hibernate to update the DDL when it starts, very useful
                 for development, dangerous in production -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost/sajith"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://dev.localhost:15534/paysol"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
             <property name="javax.persistence.jdbc.password" value="postgres"/>
             <property name="hibernate.hbm2ddl.auto" value="validate" />
