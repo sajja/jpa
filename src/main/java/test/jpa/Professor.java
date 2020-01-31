@@ -24,7 +24,7 @@ public class Professor {
     private String name;
     private long salary;
 
-    @Version
+//    @Version
     private long version;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "dept_id")
