@@ -20,15 +20,15 @@ public class OptimisticLocTest {
         EntityTransaction tx1 = em1.getTransaction();
         EntityTransaction tx2 = em2.getTransaction();
         EntityTransaction tx3 = em2.getTransaction();
-//        tx3.begin();
+        tx3.begin();
 
-//        Professor p1 = new Professor();
-//        p1.setName("Charls Xavier");
-//        p1.setSalary(0);
-//        p1.setVersion(0);
-//
-//        em2.persist(p1);
-//        tx3.commit();
+        Professor p1 = new Professor();
+        p1.setName("Charls Xavier");
+        p1.setSalary(0);
+        p1.setVersion(0);
+
+        em2.persist(p1);
+        tx3.commit();
 
 
         List x = em2.createQuery("from Professor").getResultList();
@@ -40,7 +40,7 @@ public class OptimisticLocTest {
         List m = em2.createQuery("from Professor").getResultList();
 
         Professor prof1 = (Professor) l.get(0);
-        prof1.setName("Update11111");
+        prof1.setName("Update1");
         tx1.commit();
 
         Professor prof2 = (Professor) m.get(0);

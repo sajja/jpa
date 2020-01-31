@@ -19,7 +19,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyDialect" />
             <!-- this tell Hibernate to update the DDL when it starts, very useful
                 for development, dangerous in production -->
-            <property name="hibernate.hbm2ddl.auto" value="validate" />
+            <property name="hibernate.hbm2ddl.auto" value="create" />
         </properties>
     </persistence-unit>
 </persistence>
